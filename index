@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Server</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        code { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 13px; word-break: break-all; }
+        .test-area { display: flex; gap: 10px; margin: 10px 0; }
+        .test-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .test-area button { padding: 10px 20px; background: #0066ff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        #result img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; margin-top: 10px; }
+        .url-info { font-size: 12px; color: #888; margin-top: 5px; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Image Server</h1>
+
+        <div class="card">
+            <h2>✅ Funziona!</h2>
+            <p style="margin-top:10px;">URL base del tuo server immagini:</p>
+            <p style="margin-top:5px;"><code id="baseUrl">caricamento...</code></p>
+        </div>
+
+        <div class="card">
+            <h2>🧪 Testa un percorso</h2>
+            <div class="test-area">
+                <input type="text" id="testPath" placeholder="es: cliente1/foto.jpg" value="demo/lego.png" />
+                <button onclick="testImage()">Carica</button>
+            </div>
+            <div id="result"></div>
+        </div>
+
+        <div class="card">
+            <h2>🖨️ Uso nel gestionale</h2>
+            <p>Nel campo sorgente immagine della stampa, inserisci:</p>
+            <p style="margin-top:8px;"><code id="exampleUrl">...</code></p>
+        </div>
+    </div>
+
+    <script>
+        var base = window.location.origin + window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
+        document.getElementById('baseUrl').textContent = base;
+        document.getElementById('exampleUrl').textContent = base + '/cliente1/foto.jpg';
+
+        function testImage() {
+            var p = document.getElementById('testPath').value.replace(/^\//, '');
+            var url = base + '/' + p;
+            document.getElementById('result').innerHTML =
+                '<img src="' + url + '" onerror="this.alt=\'Immagine non trovata: ' + p + '\'" />' +
+                '<div class="url-info">URL: ' + url + '</div>';
+        }
+    </script>
+</body>
+</html>
